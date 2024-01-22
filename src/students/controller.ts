@@ -62,8 +62,8 @@ export default class studentController extends studentService {
     const data = await this.getAllStudentsService(classId);
     const user: IResponse = {
       success: true,
-      message: "Student Created successfully",
-      message_code: "STUDENT_CREATED",
+      message: "Student Fetched successfully",
+      message_code: "STUDENT_FETCHED",
       data,
     };
 
