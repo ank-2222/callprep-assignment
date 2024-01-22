@@ -47,6 +47,7 @@ To run this project, you will need to add the following environment variables to
 
 ## DB Design
 
+![image](https://github.com/ank-2222/callprep-assignment/assets/76547947/cf93aa75-c705-4184-81bd-daffe43ab31a)
 
 
 
