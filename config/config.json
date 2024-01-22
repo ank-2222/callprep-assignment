@@ -1,0 +1,17 @@
+{
+  "development": {
+    "username": "default",
+    "password": "cQAf0RHsJk1r",
+    "database": "verceldb",
+    "host": "ep-young-mud-25671001-pooler.us-east-1.postgres.vercel-storage.com",
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
+  }
+}
+
+
