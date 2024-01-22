@@ -121,9 +121,60 @@ export default class studentService extends studentHelper {
   ): Promise<any> => {
   
     const data = await this.getAllStudents(classId);
-    console.log(data);
 
- 
-  };
+    const res = data.map((student: any) => {
+
+      function calculateOverallPercentage(subject_marks:any) {
+        let totalObtainedMarks = 0;
+        let totalTotalMarks = 0;
+    
+        Object.keys(subject_marks).forEach((subject) => {
+            totalObtainedMarks += subject_marks[subject].obtained_marks;
+            totalTotalMarks += subject_marks[subject].total_marks;
+        });
+    
+        if (totalTotalMarks !== 0) {
+            const overallPercentage = (totalObtainedMarks / totalTotalMarks) * 100;
+            return overallPercentage.toFixed(2);  
+        } else {
+            return 0; 
+        }
+    }
+    
+
+
+
+
+        const {first_name,last_name,age,gender,subject_marks,...rest} = student;
+        const percentageMarks = {} as any;
+        Object.keys(subject_marks).forEach((subject) => {
+          const obtainedMarks = subject_marks[subject].obtained_marks;
+          const totalMarks = subject_marks[subject].total_marks;
+      
+          if (totalMarks !== 0) {
+              const percentage = (obtainedMarks / totalMarks) * 100;
+              const percentageKey = `${subject.toLowerCase()}_percentage`;
+      
+              percentageMarks[percentageKey] = percentage.toFixed(2);  // Adjust the decimal places as needed
+          }
+        })
+        return {
+            name: first_name + " " + last_name,
+            age,
+            gender,
+
+            ...percentageMarks,
+            overall_percentage: calculateOverallPercentage(subject_marks)
+
+        }
+    })
+
+
+
+
+  
+
+    return res;
+}
 }
 

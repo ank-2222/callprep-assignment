@@ -60,7 +60,7 @@ export default class studentdb {
     return res.rows[0] as unknown as any;
   };
 
-  protected getAllStudents = async (classId:string): Promise<any> => {
+  protected getAllStudents = async (classId: string): Promise<any> => {
     const query = `
     SELECT
     s.id AS student_id,
@@ -71,16 +71,16 @@ export default class studentdb {
     s.class_id,
     s.reg_number,
     s.created_at AS student_created_at,
-    sub.name AS subject_name,
-    COALESCE(g.obtained_marks, 0) AS obtained_marks,
-    COALESCE(g.total_marks, 0) AS total_marks,
-  
+    jsonb_object_agg(sub.name, jsonb_build_object('obtained_marks', COALESCE(g.obtained_marks, 0), 'total_marks', COALESCE(g.total_marks, 0))) AS subject_marks
 FROM
     students s
-JOIN subjects sub ON true  
-LEFT JOIN grades g ON s.id = g.student_id AND sub.id = g.subject_id
+JOIN grades g ON s.id = g.student_id
+JOIN subjects sub ON g.subject_id = sub.id
 WHERE
-    s.class_id = '${classId}';
+    s.class_id = '${classId}' 
+GROUP BY
+    s.id, s.first_name, s.last_name, s.age, s.gender, s.class_id, s.reg_number, s.created_at;
+
 
     `;
 
@@ -94,6 +94,6 @@ WHERE
       });
     }
 
-    return res.rows[0] as unknown as any;
+    return res.rows as unknown as any;
   };
 }
