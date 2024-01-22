@@ -71,8 +71,8 @@ export default class studentController extends studentService {
     const data = await this.getClassDetailsService(classId);
     const user: IResponse = {
       success: true,
-      message: "Student Fetched successfully",
-      message_code: "STUDENT_FETCHED",
+      message: "class details Fetched successfully",
+      message_code: "CLASS_DETAILS_FETCHED",
       data,
     };
 
