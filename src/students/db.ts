@@ -80,8 +80,6 @@ WHERE
     s.class_id = '${classId}' 
 GROUP BY
     s.id, s.first_name, s.last_name, s.age, s.gender, s.class_id, s.reg_number, s.created_at;
-
-
     `;
 
     const res = await db.query(query);

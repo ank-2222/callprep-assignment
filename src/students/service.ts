@@ -101,7 +101,7 @@ export default class studentService extends studentHelper {
       });
     }
 
-    if (! await this.validateMarks(marks)) {
+    if (!(await this.validateMarks(marks))) {
       throw new ErrorHandler({
         message: "Invalid marks",
         status_code: 400,
@@ -110,7 +110,6 @@ export default class studentService extends studentHelper {
     }
     await this.marksEntry(marks, studentId);
 
-   
     return;
   };
   protected getAllStudentsService = async (classId: string): Promise<any> => {
@@ -123,9 +122,16 @@ export default class studentService extends studentHelper {
   protected getClassDetailsService = async (classId: string): Promise<any> => {
     const data = await this.getAllStudents(classId);
 
-    // const response = await this.getPercentage(data);
-
     const classData = await this.getClassAverage(data);
     return classData;
+  };
+  protected getSubjectAvgService = async (
+    subjectName: string,
+    classId: string
+  ): Promise<any> => {
+    const data = await this.getAllStudents(classId);
+
+    const subjectData = await this.getSubjectAvg(data, subjectName);
+    return subjectData;
   };
 }

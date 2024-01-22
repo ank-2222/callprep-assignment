@@ -5,7 +5,6 @@ const router: Router = Router();
 
 const { execute } = new UsersAuthController();
 
-router.get("/createclass", execute);    //routes
-
+router.get("/createclass", execute); //routes
 
 export default router;

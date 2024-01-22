@@ -3,7 +3,11 @@ import { errorHandler } from "../utils/res.error";
 import { IResponse } from "../utils/interface";
 import { RequestMethods } from "../utils/enums";
 import studentService from "./service";
-import { ICreateStudentReqObj, IMarksentry1ReqObj, IMarksentry2ReqObj } from "./interface";
+import {
+  ICreateStudentReqObj,
+  IMarksentry1ReqObj,
+  IMarksentry2ReqObj,
+} from "./interface";
 
 export default class studentController extends studentService {
   public execute = async (req: Request, res: Response): Promise<void> => {
@@ -23,38 +27,43 @@ export default class studentController extends studentService {
 
           statusCode = 201;
         }
-      }
-      else if(routeName === "marksentry1"){
+      } else if (routeName === "marksentry1") {
         if (method === RequestMethods.POST) {
-          const {studentId} = req.params;
-          const data = await this.marksentry1Controller(req.body,studentId);
+          const { studentId } = req.params;
+          const data = await this.marksentry1Controller(req.body, studentId);
           response = data;
 
           statusCode = 201;
         }
-      }
-      else if(routeName === "marksentry2"){
+      } else if (routeName === "marksentry2") {
         if (method === RequestMethods.POST) {
-          const {studentId} = req.params;
-          const data = await this.marksentry2Controller(req.body,studentId);
+          const { studentId } = req.params;
+          const data = await this.marksentry2Controller(req.body, studentId);
           response = data;
 
           statusCode = 201;
         }
-      }
-      else if(routeName === "getallstudents"){
+      } else if (routeName === "getallstudents") {
         if (method === RequestMethods.GET) {
-          const {classId} = req.params;
+          const { classId } = req.params;
           const data = await this.getAllStudentsController(classId);
           response = data;
 
           statusCode = 201;
         }
-      }
-      else if(routeName === "getclassdetails"){
+      } else if (routeName === "getclassdetails") {
         if (method === RequestMethods.GET) {
-          const {classId} = req.params;
+          const { classId } = req.params;
           const data = await this.getClassDetailsController(classId);
+          response = data;
+
+          statusCode = 201;
+        }
+      } else if (routeName === "getavgbysubjects") {
+        if (method === RequestMethods.GET) {
+          const { subjectName } = req.params;
+          const { classId } = req.params;
+          const data = await this.getSubjectAvgController(subjectName, classId);
           response = data;
 
           statusCode = 201;
@@ -67,7 +76,21 @@ export default class studentController extends studentService {
     }
   };
 
-  private getClassDetailsController = async (classId:string): Promise<any> => {
+  private getSubjectAvgController = async (
+    subjectName: string,
+    classId: string
+  ): Promise<any> => {
+    const data = await this.getSubjectAvgService(subjectName, classId);
+    const user: IResponse = {
+      success: true,
+      message: "Subject details Fetched successfully",
+      message_code: "SUBJECT_DETAILS_FETCHED",
+      data,
+    };
+
+    return user;
+  };
+  private getClassDetailsController = async (classId: string): Promise<any> => {
     const data = await this.getClassDetailsService(classId);
     const user: IResponse = {
       success: true,
@@ -78,7 +101,7 @@ export default class studentController extends studentService {
 
     return user;
   };
-  private getAllStudentsController = async (classId:string): Promise<any> => {
+  private getAllStudentsController = async (classId: string): Promise<any> => {
     const data = await this.getAllStudentsService(classId);
     const user: IResponse = {
       success: true,
@@ -89,7 +112,9 @@ export default class studentController extends studentService {
 
     return user;
   };
-  private createStudentController = async (reqObj:ICreateStudentReqObj): Promise<any> => {
+  private createStudentController = async (
+    reqObj: ICreateStudentReqObj
+  ): Promise<any> => {
     const data = await this.createStudentService(reqObj);
     const user: IResponse = {
       success: true,
@@ -100,26 +125,30 @@ export default class studentController extends studentService {
 
     return user;
   };
-  private marksentry1Controller = async (reqObj:IMarksentry1ReqObj,studentId:string): Promise<any> => {
-    await this.marksentry1Service(reqObj,studentId);
-   
+  private marksentry1Controller = async (
+    reqObj: IMarksentry1ReqObj,
+    studentId: string
+  ): Promise<any> => {
+    await this.marksentry1Service(reqObj, studentId);
+
     const user: IResponse = {
       success: true,
       message: "Marks Entered successfully",
       message_code: "MARKS_ENTERED",
-     
     };
 
     return user;
   };
-  private marksentry2Controller = async (reqObj:IMarksentry2ReqObj,studentId:string): Promise<any> => {
-    await this.marksentry2Service(reqObj,studentId);
-   
+  private marksentry2Controller = async (
+    reqObj: IMarksentry2ReqObj,
+    studentId: string
+  ): Promise<any> => {
+    await this.marksentry2Service(reqObj, studentId);
+
     const user: IResponse = {
       success: true,
       message: "Marks Entered successfully",
       message_code: "MARKS_ENTERED",
-     
     };
 
     return user;

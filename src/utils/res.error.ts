@@ -10,7 +10,8 @@ export const errorHandler = (res: Response, error: any) => {
     LogTypes.CUSTOM_OBJ
   );
 
-  if (error instanceof ErrorHandler) {         //checks if error is instance of error handler class
+  if (error instanceof ErrorHandler) {
+    //checks if error is instance of error handler class
     return res.status(error.status_code).send({
       success: false,
       message: error.message,

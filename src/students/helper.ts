@@ -37,9 +37,6 @@ export default class studentHelper extends studentdb {
     return true;
   };
 
-
-
-
   public marksEntry = async (data: marksDataObj, studentId: string) => {
     const marksData = Object.entries(data);
     for (const element of marksData) {
@@ -84,7 +81,6 @@ export default class studentHelper extends studentdb {
     }
   };
   public getPercentage = async (data: any) => {
-   
     const res = data.map((student: any) => {
       function calculateOverallPercentage(subject_marks: any) {
         let totalObtainedMarks = 0;
@@ -128,62 +124,60 @@ export default class studentHelper extends studentdb {
       };
     });
 
-
-
-return res;
-
-
-
-
-
-
-
-
+    return res;
   };
   public getClassAverage = async (data: any) => {
-   
+    const calculateOverallPercentage = (subject_marks: any): any => {
+      let totalObtainedMarks = 0;
+      let totalTotalMarks = 0;
 
+      Object.keys(subject_marks).forEach((subject) => {
+        totalObtainedMarks += subject_marks[subject].obtained_marks;
+        totalTotalMarks += subject_marks[subject].total_marks;
+      });
 
-   const calculateOverallPercentage = (subject_marks: any):any => {
-    let totalObtainedMarks = 0;
-    let totalTotalMarks = 0;
+      if (totalTotalMarks !== 0) {
+        const overallPercentage = (totalObtainedMarks / totalTotalMarks) * 100;
+        return overallPercentage.toFixed(2);
+      } else {
+        return 0;
+      }
+    };
 
-    Object.keys(subject_marks).forEach((subject) => {
-      totalObtainedMarks += subject_marks[subject].obtained_marks;
-      totalTotalMarks += subject_marks[subject].total_marks;
+    function calculateClassAverage(students: any) {
+      let totalClassScore = 0;
+      let totalStudents = students.length;
+      students.forEach((student: any) => {
+        totalClassScore += parseFloat(
+          calculateOverallPercentage(student.subject_marks)
+        );
+      });
+
+      if (totalStudents !== 0) {
+        const classAverage = totalClassScore / totalStudents;
+        return classAverage.toFixed(2);
+      } else {
+        return 0;
+      }
+    }
+
+    const classAverage = calculateClassAverage(data);
+
+    return classAverage;
+  };
+  public getSubjectAvg = async (students: any, subject: string) => {
+    let totalSubjectScore = 0;
+    let totalStudents = students.length;
+
+    students.forEach((student: any) => {
+      totalSubjectScore += student.subject_marks[subject].obtained_marks;
     });
 
-    if (totalTotalMarks !== 0) {
-      const overallPercentage =
-        (totalObtainedMarks / totalTotalMarks) * 100;
-      return overallPercentage.toFixed(2);
+    if (totalStudents !== 0) {
+      const subjectAverage = totalSubjectScore / totalStudents;
+      return subjectAverage.toFixed(2);
     } else {
       return 0;
     }
-  }
-
-
-
-
-    function calculateClassAverage(students:any) {
-      let totalClassScore = 0;
-      let totalStudents = students.length;
-      students.forEach((student:any) => {
-
-        totalClassScore += parseFloat(calculateOverallPercentage(student.subject_marks));
-      });
-  
-      if (totalStudents !== 0) {
-          const classAverage = totalClassScore / totalStudents;
-          return classAverage.toFixed(2); 
-      } else {
-          return 0; 
-      }
-  }
-
-  const classAverage = calculateClassAverage(data);
-
-  return classAverage;
-
   };
 }
