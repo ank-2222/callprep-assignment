@@ -3,14 +3,14 @@
 
 
 ## postman 
-- [API LINK](https://documenter.getpostman.com/view/20003749/2s9YsT6U12)
+- [API LINK](https://documenter.getpostman.com/view/20003749/2s9YymG4z3)
 
 ## Installation
 
 #### Clone the Repo
 
 ```bash
-   git clone https://github.com/ank-2222/streetdine-assignment
+   git clone https://github.com/ank-2222/callprep-assignment
 ```
 
 #### To run the Project 
@@ -22,26 +22,6 @@
 ```bash
   npm start 
 ```
-
-
-
-## DB Table
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `id` | `uuid` | **Auto generated**. |
-| `employee_id` | `string` | **Required**. |
-| `first_name` | `string` | **Required**.  |
-| `last_name` | `string` | **Required**.  |
-| `email` | `string` | **Required**. |
-| `dob` | `string` | **Required**.  |
-| `department` | `string` | **Required**. |
-| `position` | `string` | **Required**. |
-| `created_at` | `date` | **Auto generated**. |
-
-
-
-
 
 
 
@@ -63,5 +43,11 @@ To run this project, you will need to add the following environment variables to
 
 `POSTGRES_PORT`
 
-`JWT_SECRET`
+
+
+## DB Design
+
+
+
+
 
