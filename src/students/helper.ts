@@ -1,13 +1,11 @@
 import ErrorHandler from "../utils/errors.handler";
 import studentdb from "./db";
-import {  marksDataObj } from "./interface";
+import { marksDataObj } from "./interface";
 import { v4 } from "uuid";
 
 export default class studentHelper extends studentdb {
   public validateMarks = async (marksEntry: any): Promise<boolean> => {
-
-
-    const marks  = marksEntry;
+    const marks = marksEntry;
     const validateSubjectMarks = (
       subject: string,
       subjectMarks: [number, number]
@@ -20,10 +18,9 @@ export default class studentHelper extends studentdb {
         obtainedMarks > totalMarks
       ) {
         console.error(
-        
           `Invalid marks for ${subject}: obtainedMarks=${obtainedMarks}, totalMarks=${totalMarks}`
         );
-       
+
         return false;
       }
 
@@ -31,6 +28,7 @@ export default class studentHelper extends studentdb {
     };
 
     for (const subject in marks) {
+      console.log(subject);
       if (!validateSubjectMarks(subject, marks[subject])) {
         return false;
       }
@@ -38,8 +36,11 @@ export default class studentHelper extends studentdb {
 
     return true;
   };
+
+
+
+
   public marksEntry = async (data: marksDataObj, studentId: string) => {
-   
     const marksData = Object.entries(data);
     for (const element of marksData) {
       const subject = element[0];
