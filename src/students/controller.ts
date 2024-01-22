@@ -51,6 +51,15 @@ export default class studentController extends studentService {
           statusCode = 201;
         }
       }
+      else if(routeName === "getclassdetails"){
+        if (method === RequestMethods.GET) {
+          const {classId} = req.params;
+          const data = await this.getClassDetailsController(classId);
+          response = data;
+
+          statusCode = 201;
+        }
+      }
 
       res.status(statusCode).send(response);
     } catch (error) {
@@ -58,6 +67,17 @@ export default class studentController extends studentService {
     }
   };
 
+  private getClassDetailsController = async (classId:string): Promise<any> => {
+    const data = await this.getClassDetailsService(classId);
+    const user: IResponse = {
+      success: true,
+      message: "Student Fetched successfully",
+      message_code: "STUDENT_FETCHED",
+      data,
+    };
+
+    return user;
+  };
   private getAllStudentsController = async (classId:string): Promise<any> => {
     const data = await this.getAllStudentsService(classId);
     const user: IResponse = {
